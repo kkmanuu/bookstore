@@ -1,4 +1,3 @@
-import '../styles/books.css';
 import Form from './Form';
 
 const Books = () => (
