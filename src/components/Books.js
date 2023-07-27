@@ -40,7 +40,7 @@ Book.propTypes = {
   author: PropTypes.string.isRequired,
 };
 
-// BookList component for rendering a list of books using the Book component
+// BookList component for rendering a lists of books using the Book component
 const BookList = () => (
   <>
     <Book genre="Action" title="The Hunger Games" author="Susanne Collins" />
