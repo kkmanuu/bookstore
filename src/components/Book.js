@@ -9,7 +9,9 @@ const Book = ({ genre, title, author }) => (
       <p>{author}</p>
       <div className="commentRemoveEditDiv">
         <p className="commentRemoveEditEffects">Comments</p>
-        <p className="commentRemoveEditEffects">Remove</p>
+        <button type="button" className="commentRemoveEditEffects removeButton">
+          Remove
+        </button>
         <p className="commentRemoveEditEffects">Edit</p>
       </div>
     </div>
