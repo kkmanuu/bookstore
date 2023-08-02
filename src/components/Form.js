@@ -1,30 +1,33 @@
-import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addBook } from '../redux/books/booksSlice';
+import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { postToAPI, getBooksFromAPI } from '../redux/books/booksSlice';
 
 const Form = () => {
   const dispatch = useDispatch();
 
-  const [bookData, setBookData] = useState({
-    title: '',
-    author: '',
-  });
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBookData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  useEffect(() => {
+    dispatch(getBooksFromAPI());
+  }, [dispatch]);
+
+  const categories = ['Science Fiction', 'Supernatural', 'Fiction', 'Non-Fiction', 'Romance', 'Fantasy', 'Economics'];
+  const randomCategory = Math.floor(Math.random() * categories.length);
+
+  const newBookBeingAdded = {
+    item_id: uuidv4(),
+    title,
+    author,
+    category: categories[randomCategory],
   };
 
-  const handleAddBook = () => {
-    if (bookData.title && bookData.author) {
-      dispatch(addBook(bookData));
-      setBookData({
-        title: '',
-        author: '',
-      });
+  const submitToAPI = () => {
+    if (title && author) {
+      dispatch(postToAPI(newBookBeingAdded));
+      setTitle('');
+      setAuthor('');
     }
   };
 
@@ -32,24 +35,11 @@ const Form = () => {
     <form className="addBookDiv">
       <div className="addBook">
         <h3>ADD NEW BOOK</h3>
-        <input
-          name="title"
-          placeholder="Book Title"
-          value={bookData.title}
-          onChange={handleChange}
-        />
-        <input
-          name="author"
-          placeholder="Author"
-          value={bookData.author}
-          onChange={handleChange}
-        />
-        <button type="button" className="addBookButton" onClick={handleAddBook}>
-          ADD BOOK
-        </button>
+        <input id="book-title" type="text" placeholder="Add a book" value={title} onChange={(event) => { setTitle(event.target.value); }} />
+        <input id="book-author" type="text" placeholder="Add author" value={author} onChange={(event) => { setAuthor(event.target.value); }} />
+        <button type="button" className="addBookButton progressButton" onClick={() => submitToAPI()}>ADD BOOK</button>
       </div>
     </form>
   );
 };
-
 export default Form;
