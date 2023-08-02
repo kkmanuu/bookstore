@@ -1,47 +1,81 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// Initial state
-const initialState = [
-  {
-    item_id: 'item1',
-    title: 'The Great Gatsby',
-    author: 'John Smith',
-    category: 'Fiction',
+const BASE_URL = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/1BzfvD0wemkgNcxHqiGj';
+
+const initialState = {
+  booksList: [],
+  error: null,
+};
+
+export const getBooksFromAPI = createAsyncThunk(
+  'getBooks',
+  async () => {
+    const response = await axios.get(`${BASE_URL}/books`);
+    return response.data;
   },
-  {
-    item_id: 'item2',
-    title: 'Anna Karenina',
-    author: 'Leo Tolstoy',
-    category: 'Fiction',
+);
+
+export const postToAPI = createAsyncThunk(
+  'postBooks',
+  async (booksObject) => {
+    const response = await axios.post(`${BASE_URL}/books`, booksObject, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
+    return response.data;
   },
-  {
-    item_id: 'item3',
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    category: 'Nonfiction',
+);
+
+export const removeBookFromAPI = createAsyncThunk(
+  'removebook',
+  async (bookId) => {
+    await axios.delete(`${BASE_URL}/books/${bookId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return bookId;
   },
-];
+);
 
 const booksSlice = createSlice({
   name: 'books',
   initialState,
-  reducers: {
-    addBook: (state, action) => {
-      const newBook = {
-        item_id: `item${state.length + 1}`, // Generate item_id correctly
-        title: action.payload.title,
-        author: action.payload.author,
-        category: 'Fiction', // Assuming default category as "Fiction"
-      };
-      state.push(newBook);
-    },
-    removeBook: (state, action) => {
-      const itemIdToRemove = action.payload.id;
-      return state.filter((book) => book.item_id !== itemIdToRemove); // Use item_id instead of id
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getBooksFromAPI.fulfilled, (state, action) => {
+        state.booksList = Object.keys(action.payload).map((bookId) => ({
+          id: bookId,
+          ...action.payload[bookId][0],
+        }));
+        state.error = null;
+      })
+      .addCase(getBooksFromAPI.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(postToAPI.fulfilled, (state, action) => {
+        const { item_id: id, ...oldBooks } = action.payload;
+        const addedBook = {
+          id,
+          ...oldBooks,
+        };
+        state.booksList.push(addedBook);
+        state.error = null;
+      })
+      .addCase(postToAPI.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(removeBookFromAPI.fulfilled, (state, action) => {
+        state.booksList = state.booksList.filter((book) => book.id !== action.payload);
+        state.error = null;
+      })
+      .addCase(removeBookFromAPI.rejected, (state, action) => {
+        state.error = action.error.message;
+      });
   },
 });
-
-export const { addBook, removeBook } = booksSlice.actions;
 
 export default booksSlice.reducer;
