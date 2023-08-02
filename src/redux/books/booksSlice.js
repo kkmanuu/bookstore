@@ -1,23 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  booksList: [],
-};
+// Initial state
+const initialState = [
+  {
+    item_id: 'item1',
+    title: 'The Great Gatsby',
+    author: 'John Smith',
+    category: 'Fiction',
+  },
+  {
+    item_id: 'item2',
+    title: 'Anna Karenina',
+    author: 'Leo Tolstoy',
+    category: 'Fiction',
+  },
+  {
+    item_id: 'item3',
+    title: 'The Selfish Gene',
+    author: 'Richard Dawkins',
+    category: 'Nonfiction',
+  },
+];
 
 const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    addBook: (state, actions) => {
+    addBook: (state, action) => {
       const newBook = {
-        id: state.booksList.length += 1,
-        title: actions.payload.title,
-        author: actions.payload.author,
+        item_id: `item${state.length + 1}`, // Generate item_id correctly
+        title: action.payload.title,
+        author: action.payload.author,
+        category: 'Fiction', // Assuming default category as "Fiction"
       };
-      state.booksList.push(newBook);
+      state.push(newBook);
     },
-    removeBook: (state, { payload }) => {
-      state.booksList.filter((book) => book.id !== payload.id);
+    removeBook: (state, action) => {
+      const itemIdToRemove = action.payload.id;
+      return state.filter((book) => book.item_id !== itemIdToRemove); // Use item_id instead of id
     },
   },
 });

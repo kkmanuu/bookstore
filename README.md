@@ -28,8 +28,8 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
  ### Key Features <a name="key-features"></a>
- - *Setup a Redux store*
- - *Create a slice to save your state and reducers*
+ - *Use store, actions and reducers in React.*
+ - *Connect React and Redux.*
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -111,8 +111,8 @@ npx eslint .
 
 ## :telescope: Future Features <a name="future-features"></a>
 
- - *Setup a Redux store*
-- *Create a slice to save your state and reducers*
+- *Use store, actions and reducers in React.*
+- *Connect React and Redux.*
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
