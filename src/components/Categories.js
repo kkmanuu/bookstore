@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import '../styles/categories.css';
 import { checkStatus } from '../redux/categories/categoriesSlice';
 
 const Categories = () => {

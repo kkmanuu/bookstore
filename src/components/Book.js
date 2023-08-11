@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import '../styles/book.css';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import { removeBookFromAPI } from '../redux/books/booksSlice';
+import 'react-circular-progressbar/dist/styles.css';
 
 const Book = ({ book }) => {
+  const percentage = Math.floor(Math.random() * 100);
   const dispatch = useDispatch();
   const {
     id, title, author, category,
@@ -27,9 +31,9 @@ const Book = ({ book }) => {
           </div>
         </div>
         <div className="completedRing">
-          <div className="ring">.</div>
+          <div className="ring"><CircularProgressbar value={percentage} /></div>
           <div>
-            <h2 className="percent">64%</h2>
+            <h2 className="percent">{`${percentage}%`}</h2>
             <span>Completed</span>
           </div>
         </div>

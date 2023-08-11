@@ -1,0 +1,42 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,400;0,700;1,100;1,200;1,300&family=Roboto+Slab:wght@300;500;600&display=swap'); */
+
+ul {
+  list-style-type: none;
+  display: flex;
+}
+
+li {
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.ulDiv {
+  border: 1px solid rgb(242, 242, 242);
+  width: 85%;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.2), 0 -3px 20px 0 rgba(249, 247, 247, 0.19);
+}
+
+h2 {
+  color: #0290ff;
+  font-weight: bold;
+}
+
+.links {
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  font-weight: 100;
+  vertical-align: top;
+  font-size: 15px;
+  margin-left: 15px;
+}
+
+.links:hover {
+  color: blue;
+  text-decoration: underline;
+}

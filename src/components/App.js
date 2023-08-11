@@ -1,4 +1,3 @@
-// import '../styles/App.css';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Books from './Books';
